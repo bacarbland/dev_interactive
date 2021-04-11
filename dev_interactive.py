@@ -73,7 +73,7 @@ maxnoinput = 5 # so 10 miliseconds for subprocess
 maxchanges = 5 # If none of both have return anything, they might have paused for ever
 # How the judge and solution output is going to be printed
 # You can change this numbers to fit your console size
-subprformat = ('{:<75}', '{:>75}')
+subprformat = ('{:<40}', '{:>40}')
 # sufixes and prefixes for the console printing 
 suprefixes = (
               ('J:', ''), 
@@ -103,11 +103,10 @@ control = True
 changes = 0
 while solution.poll() == None and judge.poll() == None and changes < maxchanges:
     # Read solution output and connect it to the judge input
-    print(noinputloop)
     if control:
-        anyinput = processpipe(judge.stdout, solution.stdin, timelimit, subprformat[control], *suprefixes[control])
-    else:
         anyinput = processpipe(solution.stdout, judge.stdin, timelimit, subprformat[control], *suprefixes[control])
+    else:
+        anyinput = processpipe(judge.stdout, solution.stdin, timelimit, subprformat[control], *suprefixes[control])
     
     noinputloop += 1
     # If there's any input, reset everything            
@@ -115,6 +114,7 @@ while solution.poll() == None and judge.poll() == None and changes < maxchanges:
         noinputloop = 0
         changes = 0
     elif noinputloop >= maxnoinput:
+        print()
         noinputloop = 0
         changes += 1
         control =  not control
