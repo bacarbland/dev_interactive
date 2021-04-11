@@ -2,8 +2,9 @@
 The objective is to make easier the development and debugging for the  Google Code Jam's interactive problems. 
 If you have ever tried to solve an interactive problem, you should know that they are hard to debug. 
 
-With these tool you can see the conversation between the two programs and output debug info without messing with the functionality of your solution
+With these tool you can see the conversation between the two programs and output debug info without messing with the functionality of your solution.
 
+![alt text](https://github.com/bacarbland/dev_interactive/blob/main/Screenshot%20from%202021-04-11%2015-28-55.png)
 
 # Run
 You need **python3** and a **Unix System** (Linux or Mac), Windows may function with a diferent timer and signal, but i haven't try it. Also maybe it could work with Python2 with the `future` alias of `print`
