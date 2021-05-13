@@ -1,7 +1,7 @@
-import signal, subprocess, sys
+import signal, subprocess, sys, time
 
 '''
-The objective is to make easier the development and debugging for the Google Code Jam's interactive problems. 
+The objective is to make easier the development and debugging for interactive competitive programming problems. 
 To run it, the command is like the default interactive_runner.
 I only know how to run programs with unbuffered stdout, stdin, stderr in Python.
 1. python dev_interactive.py python3 -u testing_tool.py args -- python3 -u my_solution.py
@@ -9,7 +9,6 @@ Please try to open programs in unbuffered mode. Altough i tried with a C++ buffe
 2. pythyon dev_interactive.py python3 -u testing_tool.py args -- ./my_solution
 3. python dev_interactive.py python3 -u testing_tool.py args -- java solution
 4. python dev_interactive.py python3 -u testing_tool.py args -- my_solution.exe
-
 '''
 
 class TimeoutExpired(Exception):
@@ -27,7 +26,7 @@ def input_with_timeout(pipa, timeout):
         return pipa.readline().strip()
     finally:
         signal.setitimer(signal.ITIMER_REAL, 0) # cancel alarm
-        
+
 # If you wanna kill the program, you also have to kill the children
 def interrupt_handler(signum, frame):
     solution.kill()
@@ -57,6 +56,7 @@ signal.signal(signal.SIGINT, interrupt_handler)
 
 if sys.argv.count("--") != 1:
     sys.exit("Expected one and only one '--'")
+
 index2hyphen = sys.argv.index("--")
 judgecomm = sys.argv[1:index2hyphen]
 solutcomm = sys.argv[index2hyphen + 1:]
@@ -79,14 +79,6 @@ suprefixes = (
               ('J:', ''), 
               ('', ':S')
              )
-solution = subprocess.Popen(
-                            solutcomm,
-                            stdout = spstdout, 
-                            stdin = spstdin, 
-                            stderr = spstderr, 
-                            bufsize = 1,
-                            universal_newlines = True
-                            )
 
 judge = subprocess.Popen(
                             judgecomm,
@@ -97,10 +89,21 @@ judge = subprocess.Popen(
                             universal_newlines = True
                             )
 
+solution = subprocess.Popen(
+                            solutcomm,
+                            stdout = spstdout, 
+                            stdin = spstdin, 
+                            stderr = spstderr, 
+                            bufsize = 1,
+                            universal_newlines = True
+                            )
+
 noinputloop = 0
 anyinput = False
-control = True
+control = False
 changes = 0
+# Programs, specially interpreters, take time to load. Specially Java
+time.sleep(.2) 
 while solution.poll() == None and judge.poll() == None and changes < maxchanges:
     # Read solution output and connect it to the judge input
     if control:
