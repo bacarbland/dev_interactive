@@ -1,5 +1,5 @@
 # dev_interactive
-The objective is to make easier the development and debugging for the  Google Code Jam's interactive problems. 
+The objective is to make easier the development and debugging for the interactive competitive programming problems. 
 If you have ever tried to solve an interactive problem, you should know that they are hard to debug. 
 
 With these tool you can see the conversation between the two programs and output debug info without messing with the functionality of your solution.
@@ -13,14 +13,14 @@ To run it, the command is `python3 dev_interactive.py ` followed by the commands
 The commands for the judge and solution are the same you would use normally, altough it would better to run them unbuffered.
 I only know how to run programs with unbuffered stdout and stdin in Python. (`-u`)
 ### Unbuffered example:
-- `python3 dev_interactive.py python3 -u testing_tool.py *args* -- python3 -u solution.py`
+- `python3 dev_interactive.py python3 -u judge.py *args* -- python3 -u solution.py *args*
 
 
 ### Buffered examples:
-Please try to open programs in unbuffered mode. Altough i tried with a C++ buffered program and worked just fine.
-- `python3 dev_interactive.py python3 -u testing_tool.py *args* -- ./a.out`
-- `python3 dev_interactive.py python3 -u testing_tool.py *args* -- java solution`
-- `python3 dev_interactive.py python3 -u testing_tool.py *args* -- solution.exe`
+Please try to open programs in unbuffered mode. Altough i tried with a C++ buffered program and worked just fine. Flushing your stdout in your judge and solution also helps.
+- `python3 dev_interactive.py ./a.out *args* -- ./a.out *args*`
+- `python3 dev_interactive.py java judge *args* -- java solution *args*`
+- `python3 dev_interactive.py judge.exe *args* -- solution.exe *args*`
 
 # Printing debug info
 Printing something in the solution without sending it to the judge is really easy, you just add ':' at the begining of each line:
